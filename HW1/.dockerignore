@@ -1,0 +1,4 @@
+.dockerignore
+.yaml*
+.git*
+Dockerfile*
