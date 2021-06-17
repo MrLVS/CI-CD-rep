@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: java-job
+  name: java-job-lukin
 spec:
   template:
     spec:
