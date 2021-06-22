@@ -6,6 +6,6 @@ spec:
   template:
     spec:
       containers:
-      - name: "{{ include "hell-m-chart.fullname" .}}"$JOB_NAME
+      - name: "{{ include "hell-m-chart.fullname" .}}"
         image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
       restartPolicy: Never
