@@ -15,7 +15,7 @@ pipeline {
                 printenv
                 pwd
                 ls -la
-                cd /hw2
+                cd hw2/
                 docker pull $IMAGE_REPO:$TAG
                 pwd
                 ls -la
