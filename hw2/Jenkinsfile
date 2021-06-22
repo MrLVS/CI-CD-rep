@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         IMAGE_REPO = 'mrlvs/java'
-        TAG = "1.0.1"
+        TAG = "1.0.0"
     }
 
     stages {
@@ -16,13 +16,67 @@ pipeline {
                 pwd
                 ls -la
                 cd hw2/
-                docker pull $IMAGE_REPO:$TAG
                 pwd
                 ls -la
-                docker build -t $IMAGE_REPO:$JOB_NAME-$BUILD_NUMBER ./
+                docker build -t $IMAGE_REPO:$TAG-$JOB_NAME-$BUILD_NUMBER -t $IMAGE_REPO:latest ./
                 '''
+                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
+                    sh '''
+                    docker push $IMAGE_REPO:$TAG-$JOB_NAME-$BUILD_NUMBER
+                    docker push $IMAGE_REPO:latest
+                    '''
+                }  
+            }
+        }
 
-               
+                stage("Tests") {
+            when {
+                // not {
+                //     environment name: 'GIT_BRANCH', value: 'origin/master'
+                // }
+                environment name: 'GIT_BRANCH', value: 'origin/master'
+            }
+            parallel {
+                stage("Unit Tests") {
+                    agent {
+                        docker {
+                            image 'maven:3-alpine'
+                            label 'docker'
+                        }
+                    }
+                    steps {
+                        sh 'mvn test'
+                    }
+                    post {
+                        always {
+                            recordIssues(
+                                enabledForFailure: true,
+                                tools: [junitParser(pattern: '**/test-results.xml')]
+                            )
+                        }
+                    }
+                }
+
+                stage("Security Scanning") {
+                    agent {
+                        docker {
+                            image 'aquasec/trivy'
+                            label 'docker'
+                            args '--entrypoint='
+                        }
+                    }
+                    steps {
+                        sh 'trivy --cache-dir .trivycache/ -f json -o trivy.json $IMAGE_REPO:$TAG-$GIT_COMMIT'
+                    }
+                    post {
+                        always {
+                            recordIssues(
+                                enabledForFailure: true,
+                                tools: [trivy(pattern: '**/trivy.json')]
+                            )
+                        }
+                    }
+                }
             }
         }
     }
