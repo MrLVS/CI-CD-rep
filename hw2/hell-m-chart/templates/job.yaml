@@ -1,0 +1,11 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "hell-m-chart.fullname" .}}"
+spec:
+  template:
+    spec:
+      containers:
+      - name: "{{ include "hell-m-chart.fullname" .}}"$JOB_NAME
+        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+      restartPolicy: Never
