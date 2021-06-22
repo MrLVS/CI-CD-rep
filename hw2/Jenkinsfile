@@ -1,0 +1,24 @@
+pipeline {
+    agent {
+        label 'docker'
+    }
+
+    environment {
+        IMAGE_REPO = 'mrlvs/java'
+        TAG = "latest"
+    }
+
+    stages {
+        stage("Build") {
+            steps {
+                sh '''
+                docker pull $IMAGE_REPO:$TAG
+                docker build $IMAGE_REPO:$TAG -t $IMAGE_REPO:$TAG-JOB_NAME ./
+                '''
+
+               
+            }
+        }
+    }
+       
+}
