@@ -14,7 +14,7 @@ pipeline {
                 sh '''
                 printenv
                 docker pull $IMAGE_REPO:$TAG
-                docker build -t $IMAGE_REPO:$TAG-JOB_NAME ./
+                docker build -t $IMAGE_REPO:$TAG-$JOB_NAME ./
                 '''
 
                
