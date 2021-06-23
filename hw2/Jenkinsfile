@@ -29,14 +29,12 @@ pipeline {
             }
         }
 
-                stage("Tests") {
-            when {
-                // not {
-                //     environment name: 'GIT_BRANCH', value: 'origin/master'
-                // }
-                environment name: 'GIT_BRANCH', value: 'origin/master'
-            }
-            parallel {
+        stage("Tests") {
+                when { 
+                    not {
+                        environment name: 'GIT_BRANCH', value: 'origin/master'}
+                }
+                parallel {
                 stage("Unit Tests") {
                     agent {
                         docker {
@@ -66,7 +64,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'trivy --cache-dir .trivycache/ -f json -o trivy.json $IMAGE_REPO:$TAG-$GIT_COMMIT'
+                        sh 'trivy --cache-dir .trivycache/ -f json -o trivy.json $IMAGE_REPO:$TAG'
                     }
                     post {
                         always {
@@ -76,6 +74,28 @@ pipeline {
                             )
                         }
                     }
+                }
+            }
+        }
+
+        stage("Deploy"){
+            agent{
+                docker {
+                    image 'alpine/helm'
+                    label 'docker'
+                    args '--entrypoint='
+                }
+            }
+            input {
+                message 'What a Namespace?'
+                 parameters {
+                    choice choices: ['lukin', 'default', 'yaroshenko', 'filatov', 'maloglazov'], name: 'NAMESPACE'
+                 }
+            }
+
+            steps{
+                withCredentials([kubeconfigFile(credentialsId: 'kubeconf', variable: 'KUBECONFIG')]) {
+                    sh 'helm -n $NAMESPACE upgrade --install chart1 hell-m-chart/'
                 }
             }
         }
