@@ -41,11 +41,11 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 
-                        '''pwd 
+                        sh '''
+                        pwd 
                         ls -la
-
-                        mvn test'''
+                        mvn test
+                        '''
                     }
                     post {
                         always {
