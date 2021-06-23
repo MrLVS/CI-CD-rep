@@ -31,7 +31,7 @@ pipeline {
                 input {
                 message 'What a GitBranch?'
                  parameters {
-                    choice choices: ['origin/master', 'job-test'], name: 'NAMESPACE'
+                    choice choices: ['origin/master', 'job-test'], name: 'GIT_BRANCH'
                  }
             }
 
@@ -50,7 +50,7 @@ pipeline {
                     steps {
                         sh 'pwd'
                         sh 'ls -la'
-                        sh 'mvn -f ./'
+                        sh 'mvn -f hw2/test'
                     }
                     post {
                         always {
