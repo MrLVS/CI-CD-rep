@@ -50,7 +50,7 @@ pipeline {
                     steps {
                         sh 'pwd'
                         sh 'ls -la'
-                        sh 'mvn -f hw2/test'
+                        sh 'mvn -f hw2/pom'
                     }
                     post {
                         always {
