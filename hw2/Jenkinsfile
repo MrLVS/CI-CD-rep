@@ -41,9 +41,11 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'pwd'
-                        sh 'ls -la'
-                        sh 'mvn -f hw2/pom'
+                        sh 
+                        ]'''pwd 
+                        ls -la
+
+                        mvn test'''
                     }
                     post {
                         always {
