@@ -85,7 +85,7 @@ pipeline {
                 docker {
                     image 'alpine/helm'
                     label 'docker'
-                    
+                    args '--entrypoint='
                 }
             }
             input {
@@ -94,10 +94,16 @@ pipeline {
                     choice choices: ['lukin', 'default', 'yaroshenko', 'filatov', 'maloglazov'], name: 'NAMESPACE'
                  }
             }
+            steps{
+                sh '''
+                pwd
+                ls -la
+                '''
+            }
 
             steps{
                 withCredentials([kubeconfigFile(credentialsId: 'kubeconf', variable: 'KUBECONFIG')]) {
-                    sh 'helm install chart1 hell-m-chart/ -n $NAMESPACE'
+                    sh 'helm upgrade --install testchart hell-m-chart/ -n $NAMESPACE'
                 }
             }
         }
