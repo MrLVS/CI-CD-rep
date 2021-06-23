@@ -95,7 +95,7 @@ pipeline {
 
             steps{
                 withCredentials([kubeconfigFile(credentialsId: 'kubeconf', variable: 'KUBECONFIG')]) {
-                    sh 'helm -n $NAMESPACE upgrade --install chart1 hell-m-chart/'
+                    sh 'helm -n $NAMESPACE install chart1 hell-m-chart/'
                 }
             }
         }
