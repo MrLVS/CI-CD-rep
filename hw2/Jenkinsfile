@@ -95,7 +95,7 @@ pipeline {
 
             steps{
                 withCredentials([kubeconfigFile(credentialsId: 'kubeconf', variable: 'KUBECONFIG')]) {
-                    sh 'helm -n lukin upgrade --install chart ./hell-m-chart/'
+                    sh 'helm -n lukin upgrade --install chart hw2/hell-m-chart/'
                 }
             }
         }
