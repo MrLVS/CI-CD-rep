@@ -13,11 +13,7 @@ pipeline {
             steps {
                 sh '''
                 printenv
-                pwd
-                ls -la
                 cd hw2/
-                pwd
-                ls -la
                 docker build -t $IMAGE_REPO:$TAG-$JOB_NAME-$BUILD_NUMBER -t $IMAGE_REPO:latest ./
                 '''
                 withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
@@ -80,14 +76,15 @@ pipeline {
             }
         }
 
-        stage("Deploy"){
-            agent{
+        stage("Deploy") {
+            agent {
                 docker {
                     image 'alpine/helm'
                     label 'docker'
                     args '--entrypoint='
                 }
             }
+
             input {
                 message 'What a Namespace?'
                  parameters {
@@ -96,15 +93,8 @@ pipeline {
             }
 
             steps{
-                sh '''
-                    pwd
-                    ls -la
-                    '''
-            }
-
-            steps{
                 withCredentials([kubeconfigFile(credentialsId: 'kubeconf', variable: 'KUBECONFIG')]) {
-                    sh 'helm upgrade --install testchart hell-m-chart/ -n $NAMESPACE'
+                    sh 'helm upgrade --install chart hell-m-chart/ -n $NAMESPACE'
                 }
             }
         }
