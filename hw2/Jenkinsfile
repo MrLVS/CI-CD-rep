@@ -6,7 +6,7 @@ pipeline {
     environment {
         IMAGE_REPO = 'mrlvs/java'
         TAG = "1.0.0"
-        HELM_REPOSITORY_CACHE=/.cache
+        HELM_REPOSITORY_CACHE=".cache"
     }
 
     stages {
