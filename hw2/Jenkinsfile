@@ -43,7 +43,9 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'mvn test'
+                        sh 'pwd'
+                        sh 'ls -la'
+                        sh 'mvn -f ./'
                     }
                     post {
                         always {
