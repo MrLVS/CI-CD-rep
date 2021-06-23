@@ -27,14 +27,7 @@ pipeline {
         }
 
         stage("Tests") {
-
-                input {
-                message 'What a GitBranch?'
-                 parameters {
-                    choice choices: ['origin/master', 'job-test'], name: 'GIT_BRANCH'
-                 }
-            }
-
+            
                 when { 
                     not {
                         environment name: 'GIT_BRANCH', value: 'origin/master'}
