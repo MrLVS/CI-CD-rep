@@ -44,6 +44,7 @@ pipeline {
                         sh '''
                         pwd 
                         ls -la
+                        cd hw2/
                         mvn test
                         '''
                     }
