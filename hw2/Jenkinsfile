@@ -94,10 +94,11 @@ pipeline {
                     choice choices: ['lukin', 'default', 'yaroshenko', 'filatov', 'maloglazov'], name: 'NAMESPACE'
                  }
             }
+            
             steps{
                 sh '''
-                pwd
-                ls -la
+                    pwd
+                    ls -la
                 '''
             }
 
