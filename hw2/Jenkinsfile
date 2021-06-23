@@ -82,11 +82,11 @@ pipeline {
 
         stage("Deploy"){
             agent{
-                docker {
-                    image 'alpine/helm'
+                
+                    
                     label 'docker'
-                    args '--entrypoint='
-                }
+                    
+                
             }
             input {
                 message 'What a Namespace?'
