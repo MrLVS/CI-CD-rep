@@ -6,7 +6,7 @@ pipeline {
     environment {
         IMAGE_REPO = 'mrlvs/java'
         TAG = "1.0.0"
-        HELM_REPOSITORY_CACHE=".cache"
+        
     }
 
     stages {
@@ -27,6 +27,14 @@ pipeline {
         }
 
         stage("Tests") {
+
+                input {
+                message 'What a GitBranch?'
+                 parameters {
+                    choice choices: ['origin/master', 'job-test'], name: 'NAMESPACE'
+                 }
+            }
+
                 when { 
                     not {
                         environment name: 'GIT_BRANCH', value: 'origin/master'}
