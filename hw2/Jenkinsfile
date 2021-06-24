@@ -52,7 +52,7 @@ pipeline {
                         always {
                             recordIssues(
                                 enabledForFailure: true,
-                                tools: [junitParser(pattern: '**/target/checkstyle-results.xml')]
+                                tools: [junitParser(pattern: '**/target/surefire-reports/*.xml')]
                             )
                         }
                     }
