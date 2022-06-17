@@ -17,7 +17,30 @@ pipeline {
         stage('Helow world') {
             steps {
                 sh "echo 'Hello from CI-CD with change from $ref'"
+
             }
         }
+        stage("Checkout"){
+      steps {
+        checkout([$class: 'GitSCM', 
+          branches: [[name: "*/${BRANCH}"]], 
+          extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
+          userRemoteConfigs: [[
+            credentialsId: 'github', 
+            url: 'git@github.com:InfusemediaTeam/campaign_management.git'
+          ]]
+        ])
+      }
+    }
+    stage('Check worckspace') {
+      steps {
+        // Rewrite config cores to solr, add a certificate for smtp validataor to work
+        sh """
+        ls -A ${WORKSPACE}
+        ls -A ${WORKSPACE}/srctest
+
+        """
+      }
+    }
     }
 }
