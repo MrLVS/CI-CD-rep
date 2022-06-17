@@ -27,7 +27,7 @@ pipeline {
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
             credentialsId: 'Github', 
-            url: 'git@github.com:InfusemediaTeam/campaign_management.git'
+            url: 'git@github.com:MrLVS/Kubernetes.git'
           ]]
         ])
       }
