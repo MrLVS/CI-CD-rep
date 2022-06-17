@@ -8,7 +8,7 @@ pipeline {
     GenericTrigger(
      genericVariables: [
       [key: 'ref', value: '$.ref'],
-      [ key: 'BRANCH', value: '$.changes[0].refId' ],
+      [ key: 'BRANCH', value: 'test' ],
      ],
      token: 'smoketests',
      causeString: 'Triggered on $ref',
