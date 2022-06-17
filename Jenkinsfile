@@ -2,7 +2,7 @@ pipeline {
     agent any
     parameters{
     //Note: you can also use choice parameters instead of string here.
-    string(name: 'BRANCH_CM', defaultValue: 'master', description: 'branch from kuber repo') 
+    string(name: 'BRANCH_SEV', defaultValue: 'master', description: 'branch from sev repo') 
     }
     triggers {
     GenericTrigger(
@@ -36,13 +36,27 @@ pipeline {
         ])
       }
     }
+     stage("Checkout sev"){
+      steps {
+        checkout([$class: 'GitSCM', 
+          branches: [[name: "*/${BRANCH_SEV}"]], 
+          extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srcDocker']], 
+          userRemoteConfigs: [[
+            credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
+            url: 'git@github.com:MrLVS/Docker.git'
+          ]]
+        ])
+      }
+    }
     stage('Check worckspace') {
       steps {
         // Rewrite config cores to solr, add a certificate for smtp validataor to work
         sh """
         ls -A ${WORKSPACE}
+        echo "---------------------------------------------------"
         ls -A ${WORKSPACE}/srctest
-
+        echo "---------------------------------------------------"
+        ls -A ${WORKSPACE}/srcDocker
         """
       }
     }
