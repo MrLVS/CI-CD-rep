@@ -2,7 +2,9 @@ pipeline {
     agent any
     parameters{
     //Note: you can also use choice parameters instead of string here.
-    string(name: 'BRANCH_SEV', defaultValue: 'main', description: 'branch from sev repo') 
+    string(name: 'SEV_BRANCH', defaultValue: 'master', description: 'Branch from smtp-email-validator repo'),
+    string(name: 'TESTS_JOB_NAME', defaultValue: 'cm-smoke-tests', description: 'The name of the job to be launched by the trigger'),
+    string(name: 'PUSH_TO_TESTRAIL', defaultValue: 'yes', description: 'Parameter to push results tests in testrail') 
     }
     triggers {
     GenericTrigger(
