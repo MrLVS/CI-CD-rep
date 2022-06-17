@@ -34,6 +34,7 @@ pipeline {
             url: 'git@github.com:MrLVS/Kubernetes.git'
           ]]
         ])
+        sh "echo $BRANCH_SEV ----------------------"
       }
     }
      stage("Checkout sev"){
