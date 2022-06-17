@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    parameters{
+    //Note: you can also use choice parameters instead of string here.
+    string(name: 'BRANCH', defaultValue: 'master', description: 'branch from kuber repo'),        
+    }
     triggers {
     GenericTrigger(
      genericVariables: [
       [key: 'ref', value: '$.ref'],
-      [ key: 'ref', value: '$.changes[0].refId' ],
+      [ key: 'BRANCH', value: '$.changes[0].refId' ],
      ],
      token: 'smoketests',
      causeString: 'Triggered on $ref',
