@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Helow world') {
             steps {
-                sh "echo 'Hello from CI-CD with change from ${BRANCH_NAME}'"
+                sh "echo 'Hello from CI-CD with change from $ref'"
             }
         }
     }
