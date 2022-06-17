@@ -2,7 +2,7 @@ pipeline {
     agent any
     parameters{
     //Note: you can also use choice parameters instead of string here.
-    string(name: 'BRANCH', defaultValue: 'master', description: 'branch from kuber repo'),        
+    string(name: 'BRANCH', defaultValue: 'master', description: 'branch from kuber repo') 
     }
     triggers {
     GenericTrigger(
