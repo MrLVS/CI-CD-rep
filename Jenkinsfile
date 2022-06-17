@@ -5,7 +5,7 @@ pipeline {
      genericVariables: [
       [key: 'ref', value: '$.ref']
      ],
-     token: 'smoketests'
+     token: 'smoketests',
      causeString: 'Triggered on $ref',
      printContributedVariables: true,
      printPostContent: true,
