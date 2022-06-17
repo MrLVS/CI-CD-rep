@@ -39,7 +39,7 @@ pipeline {
      stage("Checkout sev"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "refs/heads/master"]], 
+          branches: [[name: "refs/heads/main"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srcDocker']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
