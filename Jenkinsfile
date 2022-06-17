@@ -26,7 +26,7 @@ pipeline {
           branches: [[name: "*/${BRANCH}"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
-            credentialsId: 'github', 
+            credentialsId: 'Github', 
             url: 'git@github.com:InfusemediaTeam/campaign_management.git'
           ]]
         ])
