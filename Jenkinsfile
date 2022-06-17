@@ -3,7 +3,8 @@ pipeline {
     triggers {
     GenericTrigger(
      genericVariables: [
-      [key: 'ref', value: '$.ref']
+      [key: 'ref', value: '$.ref'],
+      [ key: 'ref', value: '$.changes[0].refId' ],
      ],
      token: 'smoketests',
      causeString: 'Triggered on $ref',
@@ -26,7 +27,7 @@ pipeline {
           branches: [[name: "*/${BRANCH}"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
-            credentialsId: 'Github', 
+            credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
             url: 'git@github.com:MrLVS/Kubernetes.git'
           ]]
         ])
