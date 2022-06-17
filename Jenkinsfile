@@ -2,7 +2,7 @@ pipeline {
     agent any
     parameters{
     //Note: you can also use choice parameters instead of string here.
-    string(name: 'BRANCH_SEV', defaultValue: 'master', description: 'branch from sev repo') 
+    string(name: 'BRANCH_SEV', defaultValue: 'main', description: 'branch from sev repo') 
     }
     triggers {
     GenericTrigger(
@@ -39,7 +39,7 @@ pipeline {
      stage("Checkout sev"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "refs/heads/main"]], 
+          branches: [[name: "*/$BRANCH_SEV"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srcDocker']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
