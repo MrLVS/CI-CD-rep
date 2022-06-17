@@ -10,13 +10,13 @@ pipeline {
      printContributedVariables: true,
      printPostContent: true,
      regexpFilterText: '$ref',
-     regexpFilterExpression: 'refs/heads/master' 
+     regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
     )
   }
     stages {
         stage('Helow world') {
             steps {
-                sh 'echo "Hello from CI-CD with change 3"'
+                sh "echo 'Hello from CI-CD with change from ${BRANCH_NAME}'"
             }
         }
     }
