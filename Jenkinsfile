@@ -1,5 +1,18 @@
 pipeline {
     agent any
+    triggers {
+    GenericTrigger(
+     genericVariables: [
+      [key: 'ref', value: '$.ref']
+     ],
+     token: 'smoketests'
+     causeString: 'Triggered on $ref',
+     printContributedVariables: true,
+     printPostContent: true,
+     regexpFilterText: '$ref',
+     regexpFilterExpression: 'refs/heads/' + master
+    )
+  }
     stages {
         stage('Helow world') {
             steps {
