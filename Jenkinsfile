@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Helow world') {
             steps {
-                sh 'echo "Hello from CI-CD with change 2"'
+                sh 'echo "Hello from CI-CD with change 3"'
             }
         }
     }
