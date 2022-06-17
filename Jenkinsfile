@@ -8,10 +8,9 @@ pipeline {
     GenericTrigger(
      genericVariables: [
       [key: 'ref', value: '$.ref'],
-      [ key: 'BRANCH_CM', value: 'test' ],
      ],
      token: 'smoketests',
-     causeString: 'Triggered on $ref',
+     causeString: 'Triggered from branch $ref',
      printContributedVariables: true,
      printPostContent: true,
      regexpFilterText: '$ref',
@@ -28,7 +27,7 @@ pipeline {
         stage("Checkout"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "*/${BRANCH_CM}"]], 
+          branches: [[name: "$ref"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
