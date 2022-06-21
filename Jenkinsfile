@@ -13,6 +13,7 @@ pipeline {
         [key: 'action', value: '$.action'],
         [key: 'pull_request_number', value: '$.pull_request.number'],
         [key: 'target_branch', value: '$.pull_request.base.ref'],
+        [key: 'pull_request_branch', value: '$.pull_request.head.ref']
      ],
      token: 'unittests',
      causeString: 'Build started because pull request №$pull_request_number has status $action in target branch $target_branch',
@@ -34,14 +35,14 @@ pipeline {
         stage("Checkout"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "*/$CM_BRANCH"]], 
+          branches: [[name: "*/$pull_request_branch"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
             url: 'git@github.com:MrLVS/Kubernetes.git'
           ]]
         ])
-        sh "echo $CM_BRANCH ----------------------"
+        sh "echo $pull_request_branch ----------------------"
       }
     }
      stage("Checkout sev"){
