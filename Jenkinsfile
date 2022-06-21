@@ -10,8 +10,9 @@ pipeline {
     GenericTrigger(
      genericVariables: [
       [key: 'ref', value: '$.ref'],
+      [key: 'action', value: '$.action']
      ],
-     token: 'smoketests',
+     token: 'unittests',
      causeString: 'Triggered from branch $ref',
      printContributedVariables: true,
      printPostContent: true,
