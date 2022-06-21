@@ -41,13 +41,13 @@ pipeline {
             url: 'git@github.com:MrLVS/Kubernetes.git'
           ]]
         ])
-        sh "echo $BRANCH_SEV ----------------------"
+        sh "echo $CM_BRANCH ----------------------"
       }
     }
      stage("Checkout sev"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "*/$BRANCH_SEV"]], 
+          branches: [[name: "*/$SEV_BRANCH"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srcDocker']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
