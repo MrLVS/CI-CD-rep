@@ -3,7 +3,7 @@ pipeline {
     parameters{
     //Note: you can also use choice parameters instead of string here.
     string(name: 'SEV_BRANCH', defaultValue: 'master', description: 'Branch from smtp-email-validator repo')
-    string(name: 'CM_BRANCH', defaultValue: 'master', description: 'Branch from campaign_management repo')
+    string(name: 'CM_BRANCH', defaultValue: 'main', description: 'Branch from campaign_management repo')
     string(name: 'TESTS_JOB_NAME', defaultValue: 'cm-smoke-tests', description: 'The name of the job to be launched by the trigger')
     string(name: 'PUSH_TO_TESTRAIL', defaultValue: 'yes', description: 'Parameter to push results tests in testrail') 
     }
@@ -34,7 +34,7 @@ pipeline {
         stage("Checkout"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "main"]], 
+          branches: [[name: "*/$CM_BRANCH"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
