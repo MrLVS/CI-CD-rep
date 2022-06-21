@@ -18,7 +18,7 @@ pipeline {
      causeString: 'Build started because pull request №$pull_request_number has status $action in target branch $target_branch',
      printContributedVariables: true,
      printPostContent: true,
-     regexpFilterText: '$action $target_branch'
+     regexpFilterText: '$action $target_branch',
      regexpFilterExpression: '(^opened main$|^reopened main$|^synchronize main$)'
     )
   }
