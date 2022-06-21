@@ -14,7 +14,7 @@ pipeline {
         [key: 'master_branch', value: '$.pull_request.head.repo.default_branch'],
      ],
      token: 'unittests',
-     causeString: 'Triggered because $.pull_request.number is $.action',
+     causeString: 'Triggered because $pull_request.number is $action',
      printContributedVariables: true,
      printPostContent: true,
      regexpFilterText: '$action',
