@@ -3,6 +3,7 @@ pipeline {
     parameters{
     //Note: you can also use choice parameters instead of string here.
     string(name: 'SEV_BRANCH', defaultValue: 'master', description: 'Branch from smtp-email-validator repo')
+    string(name: 'CM_BRANCH', defaultValue: 'master', description: 'Branch from campaign_management repo')
     string(name: 'TESTS_JOB_NAME', defaultValue: 'cm-smoke-tests', description: 'The name of the job to be launched by the trigger')
     string(name: 'PUSH_TO_TESTRAIL', defaultValue: 'yes', description: 'Parameter to push results tests in testrail') 
     }
@@ -11,10 +12,10 @@ pipeline {
      genericVariables: [
         [key: 'action', value: '$.action'],
         [key: 'pull_request_number', value: '$.pull_request.number'],
-        [key: 'master_branch', value: '$.pull_request.head.repo.default_branch'],
+        [key: 'target_branch', value: '$.pull_request.base.ref'],
      ],
      token: 'unittests',
-     causeString: 'Triggered because $pull_request_number is $action',
+     causeString: 'Triggered because pull request №$pull_request_number is $action',
      printContributedVariables: true,
      printPostContent: true,
      regexpFilterText: '$action',
@@ -24,7 +25,7 @@ pipeline {
     stages {
         stage('Helow world') {
             steps {
-                sh "echo 'Default branch $master_branch'"
+                sh "echo 'Default branch $target_branch'"
                 sh "echo 'PR number = $pull_request_number'"
 
 
@@ -33,7 +34,7 @@ pipeline {
         stage("Checkout"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "$ref"]], 
+          branches: [[name: "main"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
