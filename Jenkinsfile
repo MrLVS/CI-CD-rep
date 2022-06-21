@@ -19,7 +19,7 @@ pipeline {
      printContributedVariables: true,
      printPostContent: true,
      regexpFilterText: '$action $target_branch'
-     regexpFilterExpression: '^opened main$|^reopened main$|^synchronize main$'
+     regexpFilterExpression: '(^opened main$|^reopened main$|^synchronize main$)'
     )
   }
     stages {
