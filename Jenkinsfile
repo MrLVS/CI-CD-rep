@@ -9,21 +9,24 @@ pipeline {
     triggers {
     GenericTrigger(
      genericVariables: [
-      [key: 'ref', value: '$.ref'],
-      [key: 'action', value: '$.action']
+        [key: 'action', value: '$.action'],
+        [key: 'pull_request_number', value: '$.pull_request.number'],
+        [key: 'master_branch', value: '$.pull_request.head.repo.default_branch'],
      ],
      token: 'unittests',
-     causeString: 'Triggered from branch $ref',
+     causeString: 'Triggered because $.pull_request.number is $.action',
      printContributedVariables: true,
      printPostContent: true,
-     regexpFilterText: '$ref',
-     regexpFilterExpression: '^(refs/heads/test)$'
+     regexpFilterText: '$action',
+     regexpFilterExpression: '^(opened|reopened|synchronize)$'
     )
   }
     stages {
         stage('Helow world') {
             steps {
-                sh "echo 'Hello from CI-CD with change from $ref'"
+                sh "echo 'Default branch $master_branch'"
+                sh "echo 'PR number = $pull_request_number'"
+
 
             }
         }
