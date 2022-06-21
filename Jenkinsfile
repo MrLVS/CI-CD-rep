@@ -2,7 +2,7 @@ pipeline {
     agent any
     parameters{
     //Note: you can also use choice parameters instead of string here.
-    string(name: 'SEV_BRANCH', defaultValue: 'master', description: 'Branch from smtp-email-validator repo')
+    string(name: 'SEV_BRANCH', defaultValue: 'main', description: 'Branch from smtp-email-validator repo')
     string(name: 'CM_BRANCH', defaultValue: 'main', description: 'Branch from campaign_management repo')
     string(name: 'TESTS_JOB_NAME', defaultValue: 'cm-smoke-tests', description: 'The name of the job to be launched by the trigger')
     string(name: 'PUSH_TO_TESTRAIL', defaultValue: 'yes', description: 'Parameter to push results tests in testrail') 
@@ -15,11 +15,11 @@ pipeline {
         [key: 'target_branch', value: '$.pull_request.base.ref'],
      ],
      token: 'unittests',
-     causeString: 'Triggered because pull request №$pull_request_number is $action',
+     causeString: 'Build started because pull request №$pull_request_number has status $action in target branch $target_branch',
      printContributedVariables: true,
      printPostContent: true,
-     regexpFilterText: '$action',
-     regexpFilterExpression: '^(opened|reopened|synchronize)$'
+     regexpFilterText: '$action $target_branch'
+     regexpFilterExpression: '^(opened main|reopened main|synchronize main)$'
     )
   }
     stages {
