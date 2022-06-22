@@ -10,26 +10,26 @@ pipeline {
     triggers {
     GenericTrigger(
      genericVariables: [
-        [key: 'action', value: '$.action'],
-        [key: 'pull_request_number', value: '$.pull_request.number'],
-        [key: 'target_branch', value: '$.pull_request.base.ref'],
-        [key: 'pull_request_branch', value: '$.pull_request.head.ref']
+        [key: 'ACTION', value: '$.action'],
+        [key: 'PULL_REQUEST_NUMBER', value: '$.pull_request.number'],
+        [key: 'TARGET_BRANCH', value: '$.pull_request.base.ref'],
+        [key: 'PULL_REQUEST_BRANCH', value: '$.pull_request.head.ref']
      ],
      token: 'unittests',
-     causeString: 'Build started because pull request №$pull_request_number has status $action in target branch $target_branch',
+     causeString: 'Build started because pull request №$PULL_REQUEST_NUMBER has status $ACTION in target branch $TARGET_BRANCH',
      printContributedVariables: true,
      printPostContent: true,
-     regexpFilterText: '$action $target_branch',
+     regexpFilterText: '$ACTION $TARGET_BRANCH',
      regexpFilterExpression: '^opened main$|^reopened main$|^synchronize main$'
     )
   }
     stages {
         stage('Helow world') {
             steps {
-                sh "echo 'Default branch $target_branch'"
-                sh "echo 'PR number = $pull_request_number'"
+                sh "echo 'Branch pull request $TARGET_BRANCH'"
+                sh "echo 'PR number = $PULL_REQUEST_NUMBER'"
                 script{
-                  currentBuild.displayName = "#${BUILD_NUMBER}-PR#${pull_request_number}-${pull_request_branch}"
+                  currentBuild.displayName = "#${BUILD_NUMBER}-PR#${PULL_REQUEST_NUMBER}-${PULL_REQUEST_BRANCH}"
                 }
 
 
@@ -38,14 +38,14 @@ pipeline {
         stage("Checkout"){
       steps {
         checkout([$class: 'GitSCM', 
-          branches: [[name: "*/$pull_request_branch"]], 
+          branches: [[name: "*/$PULL_REQUEST_BRANCH"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
             credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
             url: 'git@github.com:MrLVS/Kubernetes.git'
           ]]
         ])
-        sh "echo $pull_request_branch ----------------------"
+        sh "echo $PULL_REQUEST_BRANCH ----------------------"
       }
     }
      stage("Checkout sev"){
