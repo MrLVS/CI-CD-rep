@@ -14,7 +14,7 @@ pipeline {
         [key: 'PULL_REQUEST_NUMBER', value: '$.pull_request.number'],
         [key: 'TARGET_BRANCH', value: '$.pull_request.base.ref'],
         [key: 'PULL_REQUEST_BRANCH', value: '$.pull_request.head.ref'],
-        [key: 'SHA_COMMIT', value: '$.head.sha']
+        [key: 'SHA_COMMIT', value: '$.pull_request.head.sha']
      ],
      token: 'unittests',
      causeString: 'Build started because pull request №$PULL_REQUEST_NUMBER has status $ACTION in target branch $TARGET_BRANCH',
