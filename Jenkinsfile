@@ -28,6 +28,9 @@ pipeline {
             steps {
                 sh "echo 'Default branch $target_branch'"
                 sh "echo 'PR number = $pull_request_number'"
+                script{
+                  currentBuild.displayName = "#${BUILD_NUMBER}-PR#${pull_request_number}-${pull_request_branch}"
+                }
 
 
             }
