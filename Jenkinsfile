@@ -24,10 +24,10 @@ pipeline {
     )
   }
     stages {
-      environment{
-        TEST_ACTION = ACTION.take(3)
-      }
         stage('Helow world') {
+                environment {
+                    TEST_ACTION = ACTION.take(3)
+             }
             steps {
                 sh "echo 'Branch pull request $TARGET_BRANCH'"
                 sh "echo 'PR number = $PULL_REQUEST_NUMBER'"
