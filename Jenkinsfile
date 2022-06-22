@@ -25,6 +25,11 @@ pipeline {
     )
   }
     stages {
+    stage("Echo env vars"){
+      steps{
+        sh "env"
+      }
+    }
         stage('Helow world') {
                 environment {
                 MESSAGE_COMMIT = SHA_COMMIT.take(30)
@@ -36,6 +41,8 @@ pipeline {
                 sh "echo 'SHA_COMMIT = $SHA_COMMIT'"
                 script{
                   currentBuild.displayName = "#${BUILD_NUMBER}-PR#${MESSAGE_COMMIT}-${SHA_COMMIT_DISPLAY}"
+                  String test = 'PULL_REQUEST_BRANCH'
+                  echo "TEST_VARIABLE = ${env.test}"
                 }
 
 
@@ -76,6 +83,9 @@ pipeline {
         echo "---------------------------------------------------"
         ls -A ${WORKSPACE}/srcDocker
         """
+        script{
+          println(env.PULL_REQUEST_BRANCH)
+        }
       }
     }
     }
