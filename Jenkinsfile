@@ -27,15 +27,15 @@ pipeline {
     stages {
         stage('Helow world') {
                 environment {
-                MESSAGE = SHA_COMMIT.take(30)
+                MESSAGE_COMMIT = SHA_COMMIT.take(30)
                 SHA_COMMIT_DISPLAY = SHA_COMMIT.take(7)
              }
             steps {
                 sh "echo 'Branch pull request $TARGET_BRANCH'"
                 sh "echo 'PR number = $PULL_REQUEST_NUMBER'"
-                sh "echo 'TEST_ACTION = $TEST_ACTION'"
+                sh "echo 'SHA_COMMIT = $SHA_COMMIT'"
                 script{
-                  currentBuild.displayName = "#${BUILD_NUMBER}-PR#${MESSAGE}-${SHA_COMMIT_DISPLAY}"
+                  currentBuild.displayName = "#${BUILD_NUMBER}-PR#${MESSAGE_COMMIT}-${SHA_COMMIT_DISPLAY}"
                 }
 
 
