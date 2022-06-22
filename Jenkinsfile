@@ -41,8 +41,8 @@ pipeline {
                 sh "echo 'SHA_COMMIT = $SHA_COMMIT'"
                 script{
                   currentBuild.displayName = "#${BUILD_NUMBER}-PR#${MESSAGE_COMMIT}-${SHA_COMMIT_DISPLAY}"
-                  String test = 'PULL_REQUEST_BRANCH'
-                  echo "TEST_VARIABLE = ${env.test}"
+                  
+                  echo "TEST_VARIABLE = ${env.PULL_REQUEST_BRANCH}"
                 }
 
 
