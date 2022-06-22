@@ -13,7 +13,8 @@ pipeline {
         [key: 'ACTION', value: '$.action'],
         [key: 'PULL_REQUEST_NUMBER', value: '$.pull_request.number'],
         [key: 'TARGET_BRANCH', value: '$.pull_request.base.ref'],
-        [key: 'PULL_REQUEST_BRANCH', value: '$.pull_request.head.ref']
+        [key: 'PULL_REQUEST_BRANCH', value: '$.pull_request.head.ref'],
+        [key: 'SHA_COMMIT', value: '$.head.sha']
      ],
      token: 'unittests',
      causeString: 'Build started because pull request №$PULL_REQUEST_NUMBER has status $ACTION in target branch $TARGET_BRANCH',
@@ -26,14 +27,15 @@ pipeline {
     stages {
         stage('Helow world') {
                 environment {
-                    TEST_ACTION = ACTION.take(3)
+                MESSAGE = SHA_COMMIT.take(30)
+                SHA_COMMIT_DISPLAY = SHA_COMMIT.take(7)
              }
             steps {
                 sh "echo 'Branch pull request $TARGET_BRANCH'"
                 sh "echo 'PR number = $PULL_REQUEST_NUMBER'"
                 sh "echo 'TEST_ACTION = $TEST_ACTION'"
                 script{
-                  currentBuild.displayName = "#${BUILD_NUMBER}-PR#${PULL_REQUEST_NUMBER}-${PULL_REQUEST_BRANCH}"
+                  currentBuild.displayName = "#${BUILD_NUMBER}-PR#${MESSAGE}-${SHA_COMMIT_DISPLAY}"
                 }
 
 
