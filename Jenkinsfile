@@ -55,7 +55,7 @@ pipeline {
           branches: [[name: "*/$PULL_REQUEST_BRANCH"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srctest']], 
           userRemoteConfigs: [[
-            credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
+            credentialsId: 'Github', 
             url: 'git@github.com:MrLVS/Kubernetes.git'
           ]]
         ])
@@ -68,7 +68,7 @@ pipeline {
           branches: [[name: "*/$SEV_BRANCH"]], 
           extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'srcDocker']], 
           userRemoteConfigs: [[
-            credentialsId: '9d0f1888-1c7c-44b2-ac22-59f2e511e86d', 
+            credentialsId: 'Github', 
             url: 'git@github.com:MrLVS/Docker.git'
           ]]
         ])
