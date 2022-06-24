@@ -24,7 +24,7 @@ pipeline {
      regexpFilterExpression: '^opened main$|^reopened main$|^synchronize main$'
     )
   }
-    stages {
+  stages {
     stage("Echo env vars"){
       steps{
         sh "env"
@@ -48,7 +48,7 @@ pipeline {
 
             }
         }
-        stage("Checkout"){
+      stage("Checkout"){
       steps {
         checkout([$class: 'GitSCM', 
           branches: [[name: "*/$PULL_REQUEST_BRANCH"]], 
@@ -73,20 +73,13 @@ pipeline {
         ])
       }
     }
-    stage('Check worckspace') {
+    stage('get logs') {
       steps {
-        // Rewrite config cores to solr, add a certificate for smtp validataor to work
-        sh """
-        ls -A ${WORKSPACE}
-        echo "---------------------------------------------------"
-        ls -A ${WORKSPACE}/srctest
-        echo "---------------------------------------------------"
-        ls -A ${WORKSPACE}/srcDocker
-        """
-        script{
-          println(env.PULL_REQUEST_BRANCH)
-        }
+        sh "cp /var/lib/jenkins/jreport.xml ${WORKSPACE}/logs/jreport.xml"
+
+        junit 'logs/jreport.xml'
+        
       }
     }
-    }
+  }
 }
