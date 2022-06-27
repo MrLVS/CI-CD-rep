@@ -81,8 +81,10 @@ pipeline {
       }
     }
     stage('tests') {
+      steps{
         junit '**/test-reports/*.xml'
       }
+    }
   }
   post {
     always {
