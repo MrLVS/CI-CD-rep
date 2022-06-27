@@ -81,8 +81,9 @@ pipeline {
       }
     }
     stage('tests') {
-      publishChecks name: 'unit tests', summary: 'not all test is passed', title: 'unit tests'
+      
       steps{
+        publishChecks name: 'unit tests', summary: 'not all test is passed', title: 'unit tests'
         withCredentials([usernamePassword(credentialsId: 'jenkins-junit-reporter',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
