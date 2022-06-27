@@ -82,7 +82,7 @@ pipeline {
     }
     stage('tests') {
       steps{
-        junit '**/test-reports/*.xml'
+        junit testResults: '**/test-reports/*.xml'
       }
     }
   }
