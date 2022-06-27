@@ -83,4 +83,8 @@ pipeline {
       }
     }
   }
+  post {
+    always {
+        archiveArtifacts artifacts: "logs/*.xml"
+    }
 }
