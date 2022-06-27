@@ -87,7 +87,7 @@ pipeline {
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
 
         
-        junit testResults: '**/test-reports/*.xml'
+        junit '**/test-reports/*.xml'
                                           }
       }
     }
@@ -95,7 +95,7 @@ pipeline {
   post {
     always {
         archiveArtifacts artifacts: "build/test-reports/*.xml"
-
+        cleanWs()
     }
   }
 }
