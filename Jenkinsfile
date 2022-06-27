@@ -85,7 +85,7 @@ pipeline {
   }
   post {
     always {
-        archiveArtifacts artifacts: "test-report.xml"
+        archiveArtifacts artifacts: "test-reports/*.xml"
         cleanWs()
     }
   }
