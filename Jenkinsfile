@@ -78,7 +78,7 @@ pipeline {
       steps {
         sh "mkdir -p ${WORKSPACE}/test-reports && cp -r /var/lib/jenkins/jreport.xml ${WORKSPACE}/test-reports/junit-report.xml"
 
-        junit '**/test-reports/*.xml'
+        junit "${WORKSPACE}/test-results/*.xml"
   
       }
     }
