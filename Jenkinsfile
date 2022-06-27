@@ -87,4 +87,5 @@ pipeline {
     always {
         archiveArtifacts artifacts: "logs/*.xml"
     }
+  }
 }
