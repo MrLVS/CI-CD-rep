@@ -76,9 +76,9 @@ pipeline {
     }
     stage('get logs') {
       steps {
-        sh "mkdir -p ${WORKSPACE}/test-reports && cp -r /var/lib/jenkins/jreport.xml ${WORKSPACE}/test-reports/junit-report.xml"
+        sh "mkdir -p ${WORKSPACE}/build/test-reports && cp -r /var/lib/jenkins/jreport.xml ${WORKSPACE}/build/test-reports/junit-report.xml"
 
-        junit "${WORKSPACE}/test-results/*.xml"
+        junit '**/test-reports/*.xml'
   
       }
     }
