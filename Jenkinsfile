@@ -78,9 +78,8 @@ pipeline {
       steps {
         sh "mkdir -p ${WORKSPACE}/logs && cp -r /var/lib/jenkins/jreport.xml ${WORKSPACE}/logs/jreport.xml"
 
-        withChecks('Integration Tests'){
-        junit 'logs/jreport.xml'
-        }
+        junit 'logs/test-report.xml'
+  
       }
     }
   }
