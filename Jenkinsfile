@@ -1,11 +1,14 @@
-void setBuildStatus(String message, String sha, String state) {
+REPOSITORY = 'git@github.com:MrLVS/Kubernetes.git'
+
+def setBuildStatus(REPOSITORY, SHA, MESSAGE, STATE) {
   step([
       $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/MrLVS/Kubernetes"],
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: REPOSITORY],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: JOB_NAME],
-      commitShaSource: [$class: "ManuallyEnteredShaSource", sha: sha ],
+      commitShaSource: [$class: "ManuallyEnteredShaSource", sha: SHA ],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+      statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: BUILD_URL],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: MESSAGE, state: STATE]] ]
   ]);
 }
 
@@ -114,13 +117,13 @@ pipeline {
         cleanWs()
     }
     success {
-        setBuildStatus("Build succeeded", SHA_COMMIT, "SUCCESS");
+        setBuildStatus(REPOSITORY, SHA_COMMIT, "Build succeeded",  "SUCCESS");
     }
     failure {
-        setBuildStatus("Build failed", SHA_COMMIT, "FAILURE");
+        setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed", "FAILURE");
     }
     unstable{
-      setBuildStatus("Build failed", SHA_COMMIT, "FAILURE");
+      setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed",  "FAILURE");
     }
   }
 }
