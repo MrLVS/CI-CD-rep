@@ -1,4 +1,4 @@
-REPOSITORY = 'git@github.com:MrLVS/Kubernetes.git'
+REPOSITORY = 'https://github.com/MrLVS/Kubernetes'
 
 def setBuildStatus(REPOSITORY, SHA, MESSAGE, STATE) {
   step([
