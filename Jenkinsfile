@@ -31,7 +31,7 @@ pipeline {
         [key: 'SHA_COMMIT', value: '$.pull_request.head.sha']
      ],
      token: 'git-token',
-     tokenCredentialId: 'git-token',
+     tokenCredentialId: '',
      causeString: 'Build started because pull request №$PULL_REQUEST_NUMBER has status $ACTION in target branch $TARGET_BRANCH',
      printContributedVariables: true,
      printPostContent: true,
