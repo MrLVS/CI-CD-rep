@@ -1,8 +1,9 @@
-void setBuildStatus(String message, String state) {
+void setBuildStatus(String message, String sha, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/MrLVS/Kubernetes"],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "smoketest"],
+      commitShaSource: [$class: "ManuallyEnteredShaSource", sha: sha ],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ]);
@@ -113,13 +114,13 @@ pipeline {
         cleanWs()
     }
     success {
-        setBuildStatus("Build succeeded", "SUCCESS");
+        setBuildStatus("Build succeeded", ${SHA_COMMIT}, "SUCCESS");
     }
     failure {
-        setBuildStatus("Build failed", "FAILURE");
+        setBuildStatus("Build failed", ${SHA_COMMIT}, "FAILURE");
     }
     unstable{
-      setBuildStatus("Build failed", "FAILURE");
+      setBuildStatus("Build failed", ${SHA_COMMIT}, "FAILURE");
     }
   }
 }
