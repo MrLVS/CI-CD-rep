@@ -98,7 +98,7 @@ pipeline {
       steps{
         junit '**/test-reports/*.xml'
        }
-      }
+      
       post {
         success {
           setBuildStatus(REPOSITORY, SHA_COMMIT, "Build succeeded", "SUCCESS");
@@ -113,6 +113,7 @@ pipeline {
           setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed", "FAILURE");
         }
       }
+    }
     }
   post {
     always {
