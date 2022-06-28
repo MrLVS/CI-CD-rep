@@ -89,7 +89,7 @@ pipeline {
       
       post {
         success {
-          setBuildStatus(REPOSITORY, SHA_COMMIT, "Build succeeded", "SUCCESS");
+          setBuildStatus(repository, SHA_COMMIT, "Build succeeded", "SUCCESS");
         }
         unstable {
           script {
@@ -98,7 +98,7 @@ pipeline {
             } 
         }
         failure {
-          setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed", "FAILURE");
+          setBuildStatus(repository, SHA_COMMIT, "Build failed", "FAILURE");
         }
       }
     }
