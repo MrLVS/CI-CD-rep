@@ -112,6 +112,7 @@ pipeline {
         failure {
           setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed", "FAILURE");
         }
+      }
     }
   post {
     always {
