@@ -114,13 +114,13 @@ pipeline {
         cleanWs()
     }
     success {
-        setBuildStatus("Build succeeded", ${SHA_COMMIT}, "SUCCESS");
+        setBuildStatus("Build succeeded", SHA_COMMIT, "SUCCESS");
     }
     failure {
-        setBuildStatus("Build failed", ${SHA_COMMIT}, "FAILURE");
+        setBuildStatus("Build failed", SHA_COMMIT, "FAILURE");
     }
     unstable{
-      setBuildStatus("Build failed", ${SHA_COMMIT}, "FAILURE");
+      setBuildStatus("Build failed", SHA_COMMIT, "FAILURE");
     }
   }
 }
