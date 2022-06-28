@@ -76,28 +76,30 @@ pipeline {
     }
     stage('get logs') {
       steps {
-        sh "mkdir -p ${WORKSPACE}/build/test-reports && cp -r /var/lib/jenkins/test-report.xml ${WORKSPACE}/build/test-reports/junit-report.xml"
+        sh "mkdir -p ${WORKSPACE}/test-reports && cp -r /var/lib/jenkins/test-report.xml ${WORKSPACE}/test-reports/junit-report.xml"
   
       }
     }
     stage('tests') {
-      
       steps{
         
-        withCredentials([usernamePassword(credentialsId: 'jenkins-junit-reporter',
-                                          usernameVariable: 'GITHUB_APP',
-                                          passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
-        publishChecks name: 'unit tests', summary: 'not all test is passed', title: 'unit tests'
+        // withCredentials([usernamePassword(credentialsId: 'jenkins-junit-reporter',
+        //                                   usernameVariable: 'GITHUB_APP',
+        //                                   passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {}
+        publishChecks name: 'example', title: 'Pipeline Check', summary: 'check through pipeline',
+          text: 'you can publish checks in pipeline script',
+          detailsURL: 'http://localhost:8080/job/smoketest/',
+          actions: [[label:'an-user-request-action', description:'actions allow users to request pre-defined behaviours', identifier:'an unique identifier']]
 
         
         junit '**/test-reports/*.xml'
-                                          }
+       }
       }
-    }
+    
   }
   post {
     always {
-        archiveArtifacts artifacts: "build/test-reports/*.xml"
+        archiveArtifacts artifacts: "test-reports/*.xml"
         cleanWs()
     }
   }
