@@ -30,7 +30,7 @@ pipeline {
         [key: 'PULL_REQUEST_BRANCH', value: '$.pull_request.head.ref'],
         [key: 'SHA_COMMIT', value: '$.pull_request.head.sha']
      ],
-     token: 'git-token',
+    //  token: 'git-token',
      tokenCredentialId: 'webhookSecret',
      causeString: 'Build started because pull request №$PULL_REQUEST_NUMBER has status $ACTION in target branch $TARGET_BRANCH',
      printContributedVariables: true,
