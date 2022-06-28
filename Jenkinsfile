@@ -118,5 +118,8 @@ pipeline {
     failure {
         setBuildStatus("Build failed", "FAILURE");
     }
+    unstable{
+      setBuildStatus("Build failed", "FAILURE");
+    }
   }
 }
