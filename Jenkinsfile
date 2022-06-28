@@ -6,7 +6,7 @@ def setBuildStatus(REPOSITORY, SHA, MESSAGE, STATE) {
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: REPOSITORY],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: JOB_NAME],
       commitShaSource: [$class: "ManuallyEnteredShaSource", sha: SHA ],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "FAILURE"]],
       statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: BUILD_URL],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: MESSAGE, state: STATE]] ]
   ]);
@@ -105,7 +105,6 @@ pipeline {
           detailsURL: 'https://github.com/jenkinsci/checks-api-plugin#pipeline-usage',
           actions: [[label:'an-user-request-action', description:'actions allow users to request pre-defined behaviours', identifier:'an unique identifier']]
 
-        
         junit '**/test-reports/*.xml'
        }
       }
@@ -117,7 +116,7 @@ pipeline {
         cleanWs()
     }
     success {
-        setBuildStatus(REPOSITORY, SHA_COMMIT, "Build succeeded",  "SUCCESS");
+        setBuildStatus(REPOSITORY, SHA_COMMIT, "Build succeeded", "SUCCESS");
     }
     failure {
         setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed", "FAILURE");
