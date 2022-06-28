@@ -6,7 +6,7 @@ def setBuildStatus(REPOSITORY, SHA, MESSAGE, STATE) {
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: REPOSITORY],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: JOB_NAME],
       commitShaSource: [$class: "ManuallyEnteredShaSource", sha: SHA ],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "FAILURE"]],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: BUILD_URL],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: MESSAGE, state: STATE]] ]
   ]);
