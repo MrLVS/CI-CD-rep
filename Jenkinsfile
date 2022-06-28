@@ -1,16 +1,4 @@
-REPOSITORY = 'https://github.com/MrLVS/Kubernetes'
-
-def setBuildStatus(REPOSITORY, SHA, MESSAGE, STATE) {
-  step([
-      $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: REPOSITORY],
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: JOB_NAME],
-      commitShaSource: [$class: "ManuallyEnteredShaSource", sha: SHA ],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: BUILD_URL],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: MESSAGE, state: STATE]] ]
-  ]);
-}
+def repository = 'https://github.com/MrLVS/Kubernetes'
 
 pipeline {
     agent any
@@ -30,8 +18,8 @@ pipeline {
         [key: 'PULL_REQUEST_BRANCH', value: '$.pull_request.head.ref'],
         [key: 'SHA_COMMIT', value: '$.pull_request.head.sha']
      ],
-    //  token: 'git-token',
-     tokenCredentialId: 'webhookSecret',
+    token: 'unittests',
+     tokenCredentialId: '',
      causeString: 'Build started because pull request №$PULL_REQUEST_NUMBER has status $ACTION in target branch $TARGET_BRANCH',
      printContributedVariables: true,
      printPostContent: true,
@@ -121,4 +109,16 @@ pipeline {
         cleanWs()
     }
   }
+}
+
+def setBuildStatus(repository, sha, message, state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: repository],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: JOB_NAME],
+      commitShaSource: [$class: "ManuallyEnteredShaSource", sha: sha ],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: BUILD_URL],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
 }
