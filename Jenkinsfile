@@ -96,33 +96,27 @@ pipeline {
     }
     stage('tests') {
       steps{
-        
-        // withCredentials([usernamePassword(credentialsId: 'jenkins-junit-reporter',
-        //                                   usernameVariable: 'GITHUB_APP',
-        //                                   passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {}
-        publishChecks name: 'example', title: 'Pipeline Check', summary: 'check through pipeline',
-          text: 'you can publish checks in pipeline script',
-          detailsURL: 'https://github.com/jenkinsci/checks-api-plugin#pipeline-usage',
-          actions: [[label:'an-user-request-action', description:'actions allow users to request pre-defined behaviours', identifier:'an unique identifier']]
-
         junit '**/test-reports/*.xml'
        }
       }
-    
-  }
+      post {
+        success {
+          setBuildStatus(REPOSITORY, SHA_COMMIT, "Build succeeded", "SUCCESS");
+        }
+        unstable {
+          script {
+            if (currentBuild.result == 'UNSTABLE')
+                currentBuild.result = 'FAILURE'
+            } 
+        }
+        failure {
+          setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed", "FAILURE");
+        }
+    }
   post {
     always {
         archiveArtifacts artifacts: "test-reports/*.xml"
         cleanWs()
-    }
-    success {
-        setBuildStatus(REPOSITORY, SHA_COMMIT, "Build succeeded", "SUCCESS");
-    }
-    failure {
-        setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed", "FAILURE");
-    }
-    unstable{
-      setBuildStatus(REPOSITORY, SHA_COMMIT, "Build failed",  "FAILURE");
     }
   }
 }
