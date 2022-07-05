@@ -17,6 +17,12 @@ pipeline {
                         sh "echo 'Env NAME2 = $NAME2'"
                     }
                 }
+                stage('Run 2') {
+                    steps {
+                        
+                        sh "echo 'Env NAME2 = $NAME2'"
+                    }
+                }
             }
         }
     }
