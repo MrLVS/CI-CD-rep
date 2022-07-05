@@ -2,6 +2,10 @@ pipeline {
     agent any
     stages {
         stage('Run  tests') {
+            environment{
+                NAME2 = NAME2.tokenize('/')[-1]
+
+            }
             parallel {
                 stage('Run 1') {
                     steps {
@@ -10,10 +14,6 @@ pipeline {
                 }
                 stage('Run 2') {
                     steps {
-                        
-                        script{
-                            NAME2 = NAME2.tokenize('/')[-1]
-                        }
                         sh "echo 'Env NAME2 = $NAME2'"
                     }
                 }
