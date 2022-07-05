@@ -14,16 +14,22 @@ pipeline {
                 }
                 stage('Run 2') {
                     steps {
-                        sh "echo 'Env NAME_CM = $NAME_CM'"
+                        sh "echo 'Env NAME_CM = $NAME2'"
                     }
                 }
                 stage('Run 3') {
                     steps {
                         
-                        sh "echo 'Env NAME_CM = $NAME_CM'"
+                        sh "echo 'Env NAME_CM = $NAME2'"
                     }
                 }
             }
+        }
+        stage('Run  tests2') {
+                                steps {
+                        
+                        sh "echo 'Env NAME_CM = $NAME2'"
+                    }
         }
     }
 }
