@@ -1,8 +1,8 @@
 pipeline {
     stages {
-        stage('Run Smoke tests') {
+        stage('Run  tests') {
             parallel {
-                stage('Run 2') {
+                stage('Run 1') {
                     steps {
                         sh "echo 'Env Name1 $NAME'"
                     }
