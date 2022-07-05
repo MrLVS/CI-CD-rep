@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Run  tests') {
             environment{
-                NAME_CM = "${NAME2.tokenize('/')[-1]}"
+                NAME2 = "${NAME2.tokenize('/')[-1]}"
 
             }
             parallel {
