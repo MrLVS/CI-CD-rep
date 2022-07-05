@@ -10,10 +10,11 @@ pipeline {
                 }
                 stage('Run 2') {
                     steps {
-                        sh "echo 'Env NAME2 = $NAME2'"
+                        
                         script{
-                            RANAME2 = NAME2.tokenize('/')[-1]
+                            NAME2 = NAME2.tokenize('/')[-1]
                         }
+                        sh "echo 'Env NAME2 = $NAME2'"
                     }
                 }
             }
