@@ -9,8 +9,9 @@ pipeline {
     }
         stages {
             stage('Build images'){
+                steps{
                 sh 'echo "Build images"'
-            }
+            }}
             stage('Run  tests') {
                 when{
                     expression{ params.TEST_TYPE == 'acceptance' || params.TEST_TYPE == 'smoke' && !params.SPECIFIED_TESTS_LIST }
