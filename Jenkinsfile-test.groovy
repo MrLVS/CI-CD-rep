@@ -14,21 +14,21 @@ pipeline {
             }}
             stage('Run  acc or smoke tests') {
                 when{
-                    expression{ params.TEST_TYPE == 'acceptance' || params.TEST_TYPE == 'smoke' && !params.SPECIFIED_TESTS_LIST }
+                    expression{ env.TEST_TYPE == 'acceptance' || env.TEST_TYPE == 'smoke' && !env.SPECIFIED_TESTS_LIST }
                 }
                     steps {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
                 } 
             }
             stage('Run  SPECIFIED_TESTS_LIST') {
-                when{ expression{ params.SPECIFIED_TESTS_LIST }}
+                when{ expression{ env.SPECIFIED_TESTS_LIST }}
                 
                     steps {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
                 } 
             }
             stage('Run  unit tests') {
-                when{ expression{ !params.SPECIFIED_TESTS_LIST  && params.TEST_TYPE == 'unit'}}
+                when{ expression{ !env.SPECIFIED_TESTS_LIST  && env.TEST_TYPE == 'unit'}}
                 
                     steps {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
