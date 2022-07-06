@@ -12,7 +12,7 @@ pipeline {
                 steps{
                 sh 'echo "Build images"'
             }}
-            stage('Run  tests') {
+            stage('Run  acc or smoke tests') {
                 when{
                     expression{ params.TEST_TYPE == 'acceptance' || params.TEST_TYPE == 'smoke' && !params.SPECIFIED_TESTS_LIST }
                 }
@@ -20,15 +20,15 @@ pipeline {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
                 } 
             }
-            stage('Run  tests 2') {
+            stage('Run  SPECIFIED_TESTS_LIST') {
                 when{ expression{ params.SPECIFIED_TESTS_LIST }}
                 
                     steps {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
                 } 
             }
-            stage('Run  unit') {
-                when{ expression{ !params.SPECIFIED_TESTS_LIST  && params.TEST_TYPE == unit}}
+            stage('Run  unit tests') {
+                when{ expression{ !params.SPECIFIED_TESTS_LIST  && params.TEST_TYPE == 'unit'}}
                 
                     steps {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
