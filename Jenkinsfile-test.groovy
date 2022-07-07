@@ -76,7 +76,7 @@ pipeline {
                 
                     steps {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
-                        currentStage.result = 'FAILURE'
+                        
                     } 
             }
         }
