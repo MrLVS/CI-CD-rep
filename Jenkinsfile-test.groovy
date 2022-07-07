@@ -1,11 +1,24 @@
+def allPartsTests = [ PART1 : 'AllTestPart1',
+                      PART2 : 'AllTestPart2',
+                      PART3 : 'AllTestPart3',
+                      PART4 : 'AllTestPart4',
+                      PART5 : 'AllTestPart5',
+                      PART6 : 'AllTestPart6',
+                      PART7 : 'AllTestPart7',
+                      PART8 : 'AllTestPart8']
+
 pipeline {
     agent any
     parameters{
         string(name: 'SEV_BRANCH', defaultValue: 'master', description: 'Branch from smtp-email-validator repo')
-        string(name: 'TESTS_JOB_NAME', defaultValue: '', description: 'The name of the job to be launched by the trigger')
+        string(name: 'TESTS_JOB_NAME', defaultValue: 'child-job', description: 'The name of the job to be launched by the trigger')
         string(name: 'PUSH_TO_TESTRAIL', defaultValue: 'yes', description: 'Parameter to push test results in testrail')
         string(name: 'TEST_TYPE', defaultValue: 'smoke', description: 'Type of test to run')
         string(name: 'SPECIFIED_TESTS_LIST', defaultValue: '', description: 'Test lists')
+    }
+    environment {
+            IMAGE_TAG = "${JOB_NAME}-${BUILD_NUMBER}" 
+
     }
         stages {
             stage('Build images'){
@@ -16,9 +29,42 @@ pipeline {
                 when{
                     expression{ env.TEST_TYPE == 'acceptance' || env.TEST_TYPE == 'smoke' && !env.SPECIFIED_TESTS_LIST }
                 }
-                    steps {
-                        sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
-                } 
+                steps {
+                    script {
+                    
+                        def allJobs = [:]
+                        for(key in allPartsTests.keySet()){
+                            if(key in TESTS_PARTS){
+                                def jobName = IMAGE_TAG + "-" + key
+                                println (allPartsTests[key])
+                                allJobs[jobName] =  {
+                                                    build (job: TESTS_JOB_NAME,
+                                                    parameters:
+                                                    [
+                                                    string(name: 'IMAGE_TAG', value: IMAGE_TAG),
+                                                    string(name: 'TESTS_PART', value: allPartsTests[key]),
+                                                    string(name: 'JOB_KILLING_TIMEOUT', value: JOB_KILLING_TIMEOUT),
+                                                    string(name: 'PUSH_TO_TESTRAIL', value: PUSH_TO_TESTRAIL),
+                                                    string(name: 'TEST_TYPE', value: TEST_TYPE)
+                                                    ])
+                                                }
+
+                            }
+                        }
+                        parallel(allJobs)
+                            // parallel(allJobs)
+
+                            // for(key in allPartsTests.keySet()) {
+                            //     def jobName = "IMAGE_TAG" + curJob
+                            //     allJobs[jobName] =  {
+                            //     build (job: "main_job",
+                            //             parameters:
+                            //             [string(name:"PARAM", value:jobName)])
+                            //     }
+                            // }
+                            // 
+                    }   
+                }
             }
             stage('Run  SPECIFIED_TESTS_LIST') {
                 when{ expression{ env.SPECIFIED_TESTS_LIST }}
