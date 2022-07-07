@@ -49,7 +49,7 @@ pipeline {
 
                         }
                     }
-                    parallel(allJobs)
+                    parallel allJobs
 
 
                         // for(key in allPartsTests.keySet()) {
