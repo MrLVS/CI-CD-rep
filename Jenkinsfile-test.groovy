@@ -36,7 +36,7 @@ pipeline {
                     println allJobs
                     for(key in allPartsTests.keySet()){
                         if(key in TESTS_PARTS.split(',')){
-                            def jobName = "$IMAGE_TAG-" key
+                            def jobName = "$IMAGE_TAG-" + key
                             println key
                             println (allPartsTests[key])
                             allJobs[jobName] =  {
