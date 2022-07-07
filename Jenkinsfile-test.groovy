@@ -34,7 +34,7 @@ pipeline {
                 script {
                     def allJobs = [:]
                     for(key in allPartsTests.keySet()){
-                        if(key in TESTS_PARTS){
+                        if(key in TESTS_PARTS.split(',')){
                             def jobName = IMAGE_TAG + "-" + key
                             println (allPartsTests[key])
                             allJobs[jobName] =  {
