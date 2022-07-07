@@ -20,52 +20,50 @@ pipeline {
             IMAGE_TAG = "${JOB_NAME}-${BUILD_NUMBER}" 
 
     }
-        stages {
-            stage('Build images'){
-                steps{
-                sh 'echo "Build images"'
-            }}
-            stage('Run  acc or smoke tests') {
-                when{
-                    expression{ env.TEST_TYPE == 'acceptance' || env.TEST_TYPE == 'smoke' && !env.SPECIFIED_TESTS_LIST }
-                }
-                steps {
-                    script {
-                    
-                        def allJobs = [:]
-                        for(key in allPartsTests.keySet()){
-                            if(key in TESTS_PARTS){
-                                def jobName = IMAGE_TAG + "-" + key
-                                println (allPartsTests[key])
-                                allJobs[jobName] =  {
-                                                    build (job: TESTS_JOB_NAME,
-                                                    parameters:
-                                                    [
-                                                    string(name: 'IMAGE_TAG', value: IMAGE_TAG),
-                                                    string(name: 'TESTS_PART', value: allPartsTests[key]),
-                                                    string(name: 'JOB_KILLING_TIMEOUT', value: JOB_KILLING_TIMEOUT),
-                                                    string(name: 'PUSH_TO_TESTRAIL', value: PUSH_TO_TESTRAIL),
-                                                    string(name: 'TEST_TYPE', value: TEST_TYPE)
-                                                    ])
-                                                }
-
-                            }
-                        }
-                        parallel(allJobs)
-                            // parallel(allJobs)
-
-                            // for(key in allPartsTests.keySet()) {
-                            //     def jobName = "IMAGE_TAG" + curJob
-                            //     allJobs[jobName] =  {
-                            //     build (job: "main_job",
-                            //             parameters:
-                            //             [string(name:"PARAM", value:jobName)])
-                            //     }
-                            // }
-                            // 
-                    }   
-                }
+    stages {
+        stage('Build images'){
+            steps{
+            sh 'echo "Build images"'
+        }}
+        stage('Run  acc or smoke tests') {
+            when{
+                expression{ env.TEST_TYPE == 'acceptance' || env.TEST_TYPE == 'smoke' && !env.SPECIFIED_TESTS_LIST }
             }
+            steps {
+                script {
+                    def allJobs = [:]
+                    for(key in allPartsTests.keySet()){
+                        if(key in TESTS_PARTS){
+                            def jobName = IMAGE_TAG + "-" + key
+                            println (allPartsTests[key])
+                            allJobs[jobName] =  {
+                                                build (job: TESTS_JOB_NAME, parameters:
+                                                [
+                                                string(name: 'IMAGE_TAG', value: IMAGE_TAG),
+                                                string(name: 'TESTS_PART', value: allPartsTests[key]),
+                                                string(name: 'JOB_KILLING_TIMEOUT', value: JOB_KILLING_TIMEOUT),
+                                                string(name: 'PUSH_TO_TESTRAIL', value: PUSH_TO_TESTRAIL),
+                                                string(name: 'TEST_TYPE', value: TEST_TYPE)
+                                                ])
+                                            }
+
+                        }
+                    }
+                    parallel(allJobs)
+
+
+                        // for(key in allPartsTests.keySet()) {
+                        //     def jobName = "IMAGE_TAG" + curJob
+                        //     allJobs[jobName] =  {
+                        //     build (job: "main_job",
+                        //             parameters:
+                        //             [string(name:"PARAM", value:jobName)])
+                        //     }
+                        // }
+                        // 
+                }   
+            }
+        }
             stage('Run  SPECIFIED_TESTS_LIST') {
                 when{ expression{ env.SPECIFIED_TESTS_LIST }}
                 
@@ -79,7 +77,7 @@ pipeline {
                     steps {
                         sh "echo 'Env TEST_TYPE $TEST_TYPE list - $SPECIFIED_TESTS_LIST'"
                         currentStage.result = 'FAILURE'
-                } 
+                    } 
             }
         }
 }
