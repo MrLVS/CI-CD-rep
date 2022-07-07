@@ -1,11 +1,11 @@
-def allPartsTests = [ PART1 : 'AllTestPart1',
-                      PART2 : 'AllTestPart2',
-                      PART3 : 'AllTestPart3',
-                      PART4 : 'AllTestPart4',
-                      PART5 : 'AllTestPart5',
-                      PART6 : 'AllTestPart6',
-                      PART7 : 'AllTestPart7',
-                      PART8 : 'AllTestPart8']
+def allPartsTests = [ PART_1 : 'AllTestPart1',
+                      PART_2 : 'AllTestPart2',
+                      PART_3 : 'AllTestPart3',
+                      PART_4 : 'AllTestPart4',
+                      PART_5 : 'AllTestPart5',
+                      PART_6 : 'AllTestPart6',
+                      PART_7 : 'AllTestPart7',
+                      PART_8 : 'AllTestPart8']
 
 pipeline {
     agent any
