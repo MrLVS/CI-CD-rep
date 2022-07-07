@@ -30,6 +30,7 @@ pipeline {
                 expression{ env.TEST_TYPE == 'acceptance' || env.TEST_TYPE == 'smoke' && !env.SPECIFIED_TESTS_LIST }
             }
             steps {
+                sh " echo '$TESTS_PARTS'"
                 script {
                     def allJobs = [:]
                     for(key in allPartsTests.keySet()){
