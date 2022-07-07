@@ -33,11 +33,11 @@ pipeline {
                 sh " echo '$TESTS_PARTS'"
                 script {
                     def allJobs = [:]
-                    println (alljobs)
+                    println allJobs
                     for(key in allPartsTests.keySet()){
                         if(key in TESTS_PARTS.split(',')){
                             def jobName = IMAGE_TAG + "-" + key
-                            println (alljobs)
+                            println allJobs
                             println (allPartsTests[key])
                             allJobs[jobName] =  {
                                                 build (job: TESTS_JOB_NAME, parameters:
