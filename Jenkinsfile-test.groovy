@@ -52,7 +52,6 @@ pipeline {
 
                         }
                     }
-                    println allJobs
                     parallel (allJobs)
 
 
